@@ -1,9 +1,16 @@
 // src/components/FilterBar.jsx
 import React from "react";
+import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const FilterBar = ({ onFilterChange, onSearch }) => {
+  // Prop validation
+  FilterBar.propTypes = {
+    onFilterChange: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
+  };
+
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());

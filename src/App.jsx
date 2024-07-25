@@ -10,47 +10,59 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [retreats, setRetreats] = useState([]);
   const [filterType, setFilterType] = useState("All");
-  const [filterContent, setFilterContent] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const totalPages = Math.ceil(22 / 5);
 
   useEffect(() => {
-    fetch(
-      `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${currentPage}&limit=5`
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response);
-        setRetreats(response);
-      });
-  }, [currentPage]);
+    if (currentPage && filterType === "All")
+      fetch(
+        `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${currentPage}&limit=5`
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          setRetreats(response);
+        });
+    else if (searchTerm)
+      fetch(
+        `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${currentPage}&limit=5&search=${searchTerm}`
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          setRetreats(response);
+        });
+    else if (filterType !== "All")
+      fetch(
+        `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${currentPage}&limit=5&filter=${filterType}`
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          setRetreats(response);
+        });
+  }, [currentPage, searchTerm, filterType]);
+
 
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
 
+  const onSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
+  };
+
   const onFilterChange = (type) => {
     setFilterType(type);
   };
-
-  useEffect(() => {
-    if (filterType === "All") {
-      setFilterContent(retreats);
-    } else {
-      setFilterContent(
-        retreats.filter((retreat) => retreat.type === filterType)
-      );
-    }
-  }, [filterType]);
+  
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
       <div className="max-w-[1250px] mx-auto">
         <HeroSection />
-        <FilterBar onFilterChange={onFilterChange} />
+        <FilterBar onFilterChange={onFilterChange} onSearch={onSearch} />
         {/* Cards */}
         <div className="grid grid-cols-2  md:grid-cols-3 px-6 py-4  grid-rows-2 gap-10">
-          {filterContent.map((retreat) => (
+          {retreats.map((retreat) => (
             <RetreatCard
               key={retreat.id}
               title={retreat.title}
