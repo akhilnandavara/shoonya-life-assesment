@@ -2,7 +2,7 @@
 // src/components/HeroSection.jsx
 const HeroSection = () => {
   return (
-    <div className="relative  p-10  mx-auto">
+    <div className="relative  px-6 py-4  mx-auto">
       <div className="  flex flex-col gap-4 bg-light_Orange p-6 rounded-md overflow-hidden ">
         <div className='h-[40%] max-h-[400px] overflow-clip  object-cover  rounded-md'>
 

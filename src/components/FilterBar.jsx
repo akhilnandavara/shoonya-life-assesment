@@ -15,7 +15,7 @@ const FilterBar = ({ onFilterChange, onSearch }) => {
   };
 
   return (
-    <div className="flex justify-between px-10 bg-gray-100">
+    <div className="flex justify-between px-6 py-4 bg-gray-100">
       <div className="flex">
         {/* Filter By Date Button */}
         <div className="relative">
