@@ -7,12 +7,7 @@ const FilterBar = ({ onFilterChange, onSearch }) => {
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
-  const options = ["yoga", "meditation", "hiking", "surfing", "skiing"];
-
-  const handleFilterChange = (e) => {
-    console.log(e.target.value);
-    // Handle the filter change logic here
-  };
+  const options = ["Signature", "Standalone", "All"];
 
   return (
     <div className="flex justify-between px-6 py-4 bg-gray-100">
@@ -58,9 +53,10 @@ const FilterBar = ({ onFilterChange, onSearch }) => {
             <div className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md">
               {options.map((option, i) => (
                 <div
-                  className="p-2 hover:bg-blue-200 hover:bg-opacity-50 transition-all duration-100 rounded-md"
+                  className="p-2 cursor-pointer hover:bg-blue-200 hover:bg-opacity-50 transition-all duration-100 rounded-md"
                   key={i}
-                  onClick={(e) => handleFilterChange(e)}
+                  value={option}
+                  onClick={() => onFilterChange(option)}
                 >
                   {option}
                 </div>
