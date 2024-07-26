@@ -8,7 +8,7 @@ const RetreatCard = ({ image, title, description, date, location, price }) => {
     image: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
+    date: PropTypes.number.isRequired,
     location: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
   };

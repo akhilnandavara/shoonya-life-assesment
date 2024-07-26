@@ -6,7 +6,7 @@ import { Calendar, momentLocalizer, Views } from "react-big-calendar"; // calend
 import moment from "moment"; // date library
 
 const FilterBar = ({
-  retreats,
+  events,
   onFilterChange,
   searchInput,
   setSearchInput,
@@ -15,7 +15,7 @@ const FilterBar = ({
 }) => {
   // Prop validation
   FilterBar.propTypes = {
-    retreats: PropTypes.array.isRequired,
+    events: PropTypes.array.isRequired,
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
     searchInput: PropTypes.string.isRequired,
@@ -28,6 +28,7 @@ const FilterBar = ({
   const localizer = momentLocalizer(moment);
   const datePickerRef = useRef(null);
   const optionsRef = useRef(null);
+  
 
   const options = [
     "All",
@@ -44,17 +45,10 @@ const FilterBar = ({
     "Spiritual growth",
     "Pre-natal",
   ];
-  //  events for calender
-  const events = retreats.map((retreat) => {
-    return {
-      title: retreat.title,
-      start: retreat.date,
-      end: retreat.date,
-      id: retreat.id,
-    };
-  });
+
 
   useEffect(() => {
+    // Click outside handler
     const clickOutHandler = (e) => {
       if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
         setShowDatePicker(false);
@@ -63,7 +57,7 @@ const FilterBar = ({
         setShowOptions(false);
       }
     };
-
+    
     if (showDatePicker || showOptions) {
       document.addEventListener("mousedown", clickOutHandler);
     } else {
@@ -99,11 +93,11 @@ const FilterBar = ({
                 endAccessor="end"
                 views={[Views.MONTH, Views.AGENDA]}
                 messages={{ agenda: "Programs" }}
-                selectable={false}
+                selectable={false}a
                 className="absolute z-[1000]  top-[50%] text-xs  translate-y-[10%] bg-white w-full h-60 sm:w-[300px] sm:min-h-[300px] rounded-md"
                 onSelectEvent={(e) => {
                   setShowDatePicker(!showDatePicker);
-                  onFilterByDate(e);
+                  onFilterByDate(Number(e.id));
                 }}
               />
             </div>
@@ -152,10 +146,10 @@ const FilterBar = ({
       <input
         type="text"
         value={searchInput}
-        placeholder="Search Retreats By Title"
+        placeholder="Search Retreats By Title Location..."
         className="border py-2 px-4 text-lg font-sans   sm:w-[40%] rounded-md  sm:bg-blue-950 sm:text-white"
         onChange={(e) => {
-          setSearchInput();
+          setSearchInput(e.target.value);
           onSearch(e.target.value);
         }}
       />

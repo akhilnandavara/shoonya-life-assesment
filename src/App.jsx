@@ -14,7 +14,9 @@ function App() {
   const [filterType, setFilterType] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [filterByDateId, setFilterByDateId] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [events, setEvents] = useState([]);
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +30,9 @@ function App() {
       } else if (filterType !== "All") {
         pageURL += `&filter=${filterType}`;
         baseURL += `?filter=${filterType}`;
+      } else if (filterByDateId !== 0) {
+        pageURL += `&id=${filterByDateId}`;
+        baseURL += `?id=${filterByDateId}`;
       }
 
       try {
@@ -44,7 +49,24 @@ function App() {
 
         const pageData = await pageResponse.json();
         const totalData = await totalResponse.json();
-
+        if (
+          currentPage === 1 &&
+          searchTerm === "" &&
+          filterType === "All" &&
+          !filterByDateId
+        ) {
+          setEvents(
+            totalData.map((retreat) => {
+              return {
+                title: retreat.title,
+                start: new Date(retreat.date),
+                end: new Date(retreat.date),
+                id: retreat.id,
+              };
+            })
+          );
+        }
+        // console.log("pageData",pageData) // pageData is an array with 5 objects
         setRetreats(pageData);
         setTotalPages(Math.ceil(totalData.length / 5));
       } catch (error) {
@@ -54,7 +76,7 @@ function App() {
 
     fetchData();
     if (window.scrollY > 100) window.scrollTo({ top: 200, behavior: "smooth" });
-  }, [currentPage, searchTerm, filterType]);
+  }, [currentPage, searchTerm, filterType, filterByDateId]);
 
   const onPageChange = (page) => setCurrentPage(page);
 
@@ -70,18 +92,19 @@ function App() {
     setFilterType(type);
   };
 
-  const onFilterByDate = (data) =>
-    setRetreats(retreats.filter((retreat) => retreat.id === data.id));
+  const onFilterByDate = (id) => {
+    // console.log("id", typeof id);
+    setFilterByDateId(id);
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
 
-      <div className="max-w-[1250px] mx-auto">
-        <HeroSection/>
+      <div ref={scrollRef} className="max-w-[1250px] mx-auto">
+        <HeroSection />
         <FilterBar
-          ref={scrollRef}
-          retreats={retreats}
+          events={events}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}

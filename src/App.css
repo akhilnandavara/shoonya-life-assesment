@@ -2,8 +2,9 @@
 .rbc-toolbar {
   font-size: 0.5rem; /* Smaller font size */
 }
-.rbc-toolbar :first-child > button {
-  display: none; /* Hide the first button */
+.rbc-toolbar :first-child :first-child {
+  display: none;
+   /* Hide the first button */
 }
 
 .rbc-btn-group button {
