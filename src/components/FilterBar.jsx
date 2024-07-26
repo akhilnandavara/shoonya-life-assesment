@@ -4,17 +4,36 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const FilterBar = ({ onFilterChange, onSearch }) => {
+const FilterBar = ({ onFilterChange,searchInput,setSearchInput, onSearch }) => {
   // Prop validation
   FilterBar.propTypes = {
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
+    searchInput: PropTypes.string.isRequired,
+    setSearchInput: PropTypes.func.isRequired,
+    
   };
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
-  const options = ["Signature", "Standalone", "All"];
+  const options = [
+    "All",
+    "relaxation",
+    "meditation",
+    "weekend",
+    "flexibility",
+    "yoga",
+    "workshop",
+    "fitness",
+    "camp",
+    "detox",
+    "diet",
+    "spiritual growth",
+    "pre-natal",
+  ];
+
+  
 
   return (
     <div className="flex justify-between px-6 py-4 bg-gray-100">
@@ -34,6 +53,7 @@ const FilterBar = ({ onFilterChange, onSearch }) => {
             <div className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md">
               <DatePicker
                 selected={startDate}
+                
                 onChange={(date) => setStartDate(date)}
                 inline
               />
@@ -76,9 +96,11 @@ const FilterBar = ({ onFilterChange, onSearch }) => {
       {/* Search Input */}
       <input
         type="text"
+        value={searchInput}
+        
         placeholder="Search retreats by title"
         className="border rounded py-2 px-3"
-        onChange={(e) => onSearch(e.target.value)}
+        onChange={(e) =>{ setSearchInput();onSearch(e.target.value)}}
       />
     </div>
   );
