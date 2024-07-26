@@ -76,16 +76,16 @@ const FilterBar = ({
   }, [showDatePicker, showOptions]);
 
   return (
-    <div className="flex justify-between px-6 py-4 bg-gray-100">
-      <div className="flex">
+    <div className="flex flex-row max-sm:flex-col  justify-between px-6 py-4 bg-gray-100">
+      <div className="flex flow-row max-sm:flex-col ">
         {/* Filter By Date Button */}
-        <div className="relative">
+        <div className="relative max-sm:my-2 ">
           <button
-            className="bg-blue-950 hover:bg-blue-900 text-white  py-2 px-4 rounded"
+            className="sm:bg-blue-950 sm: hover:bg-blue-900 sm:text-white  text-gray-400 w-full bg-gray-200  flex justify-between py-2 px-4 rounded"
             onClick={() => setShowDatePicker(!showDatePicker)}
           >
-            Filter By Date
-            <span className="material-symbols-outlined align-middle">
+            <span> Filter By Date</span>
+            <span className="material-symbols-outlined align-middle ">
               keyboard_arrow_down
             </span>
           </button>
@@ -100,17 +100,20 @@ const FilterBar = ({
                 views={[Views.MONTH, Views.AGENDA]}
                 messages={{ agenda: "Programs" }}
                 selectable={false}
-                className="absolute top-[50%] text-xs left-[5%] translate-y-[10%] bg-white w-[300px] min-h-[300px] rounded-md"
-                onSelectEvent={(e) => onFilterByDate(e)}
+                className="absolute z-[1000]  top-[50%] text-xs  translate-y-[10%] bg-white w-full h-60 sm:w-[300px] sm:min-h-[300px] rounded-md"
+                onSelectEvent={(e) => {
+                  setShowDatePicker(!showDatePicker);
+                  onFilterByDate(e);
+                }}
               />
             </div>
           )}
         </div>
 
         {/* Filter By Type Button */}
-        <div className="relative">
+        <div className="relative max-sm:my-2">
           <button
-            className="bg-blue-950 hover:bg-blue-900 text-white  py-2 px-4 rounded ml-2"
+            className="sm:bg-blue-950 hover:bg-blue-900 sm:text-white bg-gray-200 text-gray-400  flex justify-between py-2 px-4 w-full rounded md:ml-2"
             onClick={() => setShowOptions(!showOptions)}
           >
             Filter By Type
@@ -125,14 +128,17 @@ const FilterBar = ({
           {showOptions && (
             <div
               ref={optionsRef}
-              className="absolute top-[50%] left-[5%] translate-y-[5%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md"
+              className="absolute top-[50%] left-0 sm:left-[5%] translate-y-[5%] bg-gray-200  bg-opacity-75 w-full  rounded-md"
             >
               {options.map((option, i) => (
                 <div
                   className="p-2 cursor-pointer hover:bg-blue-200 hover:bg-opacity-50 transition-all duration-100 rounded-md"
                   key={i}
                   value={option}
-                  onClick={() => onFilterChange(option)}
+                  onClick={() => {
+                    setShowOptions(!showOptions);
+                    onFilterChange(option);
+                  }}
                 >
                   {option}
                 </div>
@@ -147,7 +153,7 @@ const FilterBar = ({
         type="text"
         value={searchInput}
         placeholder="Search Retreats By Title"
-        className="border py-2 px-4 text-lg font-sans w-[40%] rounded-md  bg-blue-950 text-white"
+        className="border py-2 px-4 text-lg font-sans   sm:w-[40%] rounded-md  sm:bg-blue-950 sm:text-white"
         onChange={(e) => {
           setSearchInput();
           onSearch(e.target.value);

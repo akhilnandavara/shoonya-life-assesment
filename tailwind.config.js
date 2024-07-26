@@ -7,13 +7,18 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
-       light_Orange:"#e0d9cf",
+      screens: {
+        'max-xs': { 'max': '480px', },
+        'max-sm': { 'max': '640px', }
+
+      },
+      colors: {
+        light_Orange: "#e0d9cf",
       }
     },
   },
-  
+
   plugins: [
-    
+
   ],
 }

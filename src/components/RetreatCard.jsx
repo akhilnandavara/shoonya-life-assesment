@@ -18,7 +18,7 @@ const RetreatCard = ({ image, title, description, date, location, price }) => {
 
   return (
     <div className=" overflow-hidden shadow-lg  rounded-md bg-light_Orange px-6 py-4 ">
-      <div className=" h-[40%] w-[60%]">
+      <div className="h-40 sm:h-[40%] sm:w-[60%]">
         <img
           loading="lazy"
           className=" w-full h-full object-cover rounded-xl"

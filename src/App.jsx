@@ -19,41 +19,34 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      let url = `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats?page=${currentPage}&limit=5`;
+      let baseURL = `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats`;
+      let pageURL = `${baseURL}?page=${currentPage}&limit=5`;
 
       if (searchTerm) {
-        url += `&search=${searchTerm}`;
+        pageURL += `&search=${searchTerm}`;
+        baseURL += `?search=${searchTerm}`;
       } else if (filterType !== "All") {
-        url += `&filter=${filterType}`;
+        pageURL += `&filter=${filterType}`;
+        baseURL += `?filter=${filterType}`;
       }
 
       try {
-        const filterDataResponse = await fetch(url);
-        if (filterDataResponse.status !== 200) {
+        const [pageResponse, totalResponse] = await Promise.all([
+          fetch(pageURL),
+          fetch(baseURL),
+        ]);
+
+        if (pageResponse.status !== 200 || totalResponse.status !== 200) {
           setRetreats([]);
           setTotalPages(1);
-          throw new Error("Failed to fetch filter data");
+          throw new Error("Failed to fetch data");
         }
 
-        const filterData = await filterDataResponse.json();
-        setRetreats(filterData);
+        const pageData = await pageResponse.json();
+        const totalData = await totalResponse.json();
 
-        // Get total pages
-        let totalPageurl =
-          "https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats";
-        if (searchTerm) {
-          totalPageurl += `?search=${searchTerm}`;
-        } else if (filterType !== "All") {
-          totalPageurl += `?filter=${filterType}`;
-        }
-
-        const res = await fetch(totalPageurl);
-        if (res.status !== 200) {
-          throw new Error("Failed to fetch total pages");
-        }
-
-        const completeData = await res.json();
-        setTotalPages(Math.ceil(completeData.length / 5));
+        setRetreats(pageData);
+        setTotalPages(Math.ceil(totalData.length / 5));
       } catch (error) {
         console.log(error);
       }
@@ -85,7 +78,7 @@ function App() {
       <Header />
 
       <div className="max-w-[1250px] mx-auto">
-        <HeroSection />
+        <HeroSection/>
         <FilterBar
           ref={scrollRef}
           retreats={retreats}
@@ -97,11 +90,11 @@ function App() {
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (
-          <div className=" font-bold text-3xl h-80 flex justify-center items-center">
+          <div className=" font-bold  sm:text-3xl h-40 sm:h-80 flex justify-center items-center">
             Content Not Found
           </div>
         ) : (
-          <div className="grid grid-cols-2  md:grid-cols-3 px-6 py-4  grid-rows-2 gap-10">
+          <div className="grid   sm:grid-cols-2  md:grid-cols-3 px-6 py-4  grid-rows-2 gap-10">
             {retreats?.map((retreat) => (
               <RetreatCard
                 key={retreat.id}
@@ -121,7 +114,7 @@ function App() {
           onPageChange={onPageChange}
         />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

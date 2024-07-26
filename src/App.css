@@ -20,3 +20,10 @@
   cursor: pointer;
   
 }
+
+.rbc-button-link{
+  color:rgb(18, 18, 107)!important;
+}
+.rbc-button-link:hover{
+  color:rgb(124, 124, 193)!important;
+}
