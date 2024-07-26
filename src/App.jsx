@@ -31,7 +31,7 @@ function App() {
         pageURL += `&filter=${filterType}`;
         baseURL += `?filter=${filterType}`;
       } else if (filterByDate !== 0) {
-        console.log("filterByDate", filterByDate);
+        // console.log("filterByDate", filterByDate);
         pageURL += `&id=${filterByDate}`;
         baseURL += `?id=${filterByDate}`;
       }
@@ -76,7 +76,7 @@ function App() {
     };
 
     fetchData();
-    if (window.scrollY > 300) window.scrollTo({ top: 200, behavior: "smooth" });
+    if (window.scrollY > 500) window.scrollTo({ top: 200, behavior: "smooth" });
   }, [currentPage, searchTerm, filterType, filterByDate]);
 
   
