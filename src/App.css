@@ -4,27 +4,55 @@
 }
 .rbc-toolbar :first-child :first-child {
   display: none;
-   /* Hide the first button */
+  /* Hide the first button */
 }
 
 .rbc-btn-group button {
   font-size: 0.75rem; /* Smaller font size for buttons */
   padding: 0.75rem 0.75rem; /* Smaller padding */
+  order: 2;
+  margin: 10px 0px !important;
+  border-radius: 5px !important;
 }
 
 .rbc-toolbar-label {
   font-size: 0.75rem; /* Smaller font size for toolbar label */
+  order: 1;
 }
 
-.rbc-agenda-event-cell:hover{
-  color:rgb(18, 18, 107);
+.rbc-agenda-event-cell:hover {
+  color: rgb(18, 18, 107);
   cursor: pointer;
-  
 }
 
-.rbc-button-link{
-  color:rgb(18, 18, 107)!important;
+.rbc-button-link {
+  color: rgb(18, 18, 107) !important;
 }
-.rbc-button-link:hover{
-  color:rgb(124, 124, 193)!important;
+.rbc-button-link:hover {
+  color: rgb(124, 124, 193) !important;
+}
+
+@media screen and (max-width: 650px) {
+  .rbc-toolbar {
+    font-size: 0.5rem; /* Smaller font size */
+    flex-direction: row!important;
+  }
+ 
+  .rbc-btn-group button {
+    font-size: 0.5rem; /* Smaller font size for buttons */
+    padding: 0.5rem 0.5rem; /* Smaller padding */
+    order: 2;
+    margin: 5px 0px !important;
+  }
+  .rbc-toolbar-label {
+    font-size: 0.5rem; /* Smaller font size for toolbar label */
+    order: 1;
+  }
+  
+  .rbc-button-link {
+    font-size: 0.5rem;
+  }
+  .rbc-event-content {
+    font-size: 0.5rem;
+  }
 }
