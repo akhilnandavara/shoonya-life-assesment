@@ -1,4 +1,4 @@
-```markdown
+
 # Shoonya Life Assessment
 
 ## Overview
@@ -101,7 +101,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For any inquiries or feedback, please contact [Akhil](mailto:akhiln1108@gmail.com).
-
-```
-
-Feel free to adjust the details as needed!
