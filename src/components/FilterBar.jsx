@@ -1,5 +1,5 @@
 // src/components/FilterBar.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Calendar, momentLocalizer, Views } from "react-big-calendar";
@@ -25,6 +25,9 @@ const FilterBar = ({
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
+  const datePickerRef = useRef(null);
+  const optionsRef = useRef(null);
+
   // const [startDate, setStartDate] = React.useState(new Date());
   const options = [
     "All",
@@ -43,7 +46,6 @@ const FilterBar = ({
   ];
 
   const localizer = momentLocalizer(moment);
-
   const events = retreats.map((retreat) => {
     return {
       title: retreat.title,
@@ -52,6 +54,28 @@ const FilterBar = ({
       id: retreat.id,
     };
   });
+
+  useEffect(() => {
+    const clickOutHandler = (e) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target)) {
+        setShowDatePicker(false);
+      }
+      if (optionsRef.current && !optionsRef.current.contains(e.target)) {
+        setShowOptions(false);
+      }
+    };
+
+    if (showDatePicker || showOptions) {
+      document.addEventListener("mousedown", clickOutHandler);
+    } else {
+      document.removeEventListener("mousedown", clickOutHandler);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", clickOutHandler);
+    };
+  }, [showDatePicker, showOptions]);
+
 
   return (
     <div className="flex justify-between px-6 py-4 bg-gray-100">
@@ -68,18 +92,20 @@ const FilterBar = ({
             </span>
           </button>
           {showDatePicker && (
-            <Calendar
-              localizer={localizer}
-              events={events}
-              defaultDate={new Date(1970, 0, 1)}
-              startAccessor="start"
-              endAccessor="end"
-              views={[Views.MONTH, Views.AGENDA]}
-              messages={{ agenda: "Programs" }}
-              selectable={false}
-              className="absolute top-[50%] text-xs left-[5%] translate-y-[15%] bg-white w-[300px] min-h-[300px] rounded-md"
-              onSelectEvent={(e) => onFilterByDate(e)}
-            />
+            <div ref={datePickerRef}>
+              <Calendar
+                localizer={localizer}
+                events={events}
+                defaultDate={new Date(1970, 0, 1)}
+                startAccessor="start"
+                endAccessor="end"
+                views={[Views.MONTH, Views.AGENDA]}
+                messages={{ agenda: "Programs" }}
+                selectable={false}
+                className="absolute top-[50%] text-xs left-[5%] translate-y-[15%] bg-white w-[300px] min-h-[300px] rounded-md"
+                onSelectEvent={(e) => onFilterByDate(e)}
+              />
+            </div>
           )}
         </div>
 
@@ -99,7 +125,10 @@ const FilterBar = ({
             </span>
           </button>
           {showOptions && (
-            <div className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md">
+            <div
+              ref={optionsRef}
+              className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md"
+            >
               {options.map((option, i) => (
                 <div
                   className="p-2 cursor-pointer hover:bg-blue-200 hover:bg-opacity-50 transition-all duration-100 rounded-md"

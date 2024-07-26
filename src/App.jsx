@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import FilterBar from "./components/FilterBar";
 import Header from "./components/Header";
@@ -60,9 +60,8 @@ function App() {
     fetchData();
   }, [currentPage, searchTerm, filterType]);
 
-  const onPageChange = (page) => {
-    setCurrentPage(page);
-  };
+  const onPageChange = (page) => setCurrentPage(page);
+
 
   const onSearch = debounce((searchTerm) => {
     setCurrentPage(1);
@@ -76,10 +75,8 @@ function App() {
     setFilterType(type);
   };
   
-  const onFilterByDate=(data)=>{
-    setRetreats(retreats.filter((retreat)=>retreat.id===data.id))
-    console.log(retreats)
-  }
+  const onFilterByDate=(data)=> setRetreats(retreats.filter((retreat)=>retreat.id===data.id))
+  
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -87,12 +84,15 @@ function App() {
       <div className="max-w-[1250px] mx-auto">
         <HeroSection />
         <FilterBar
+       
+      
         retreats={retreats}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onSearch={onSearch}
           onFilterByDate={onFilterByDate}
+
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (
