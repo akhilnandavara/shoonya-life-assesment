@@ -75,6 +75,11 @@ function App() {
     setSearchInput("");
     setFilterType(type);
   };
+  
+  const onFilterByDate=(data)=>{
+    setRetreats(retreats.filter((retreat)=>retreat.id===data.id))
+    console.log(retreats)
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -82,10 +87,12 @@ function App() {
       <div className="max-w-[1250px] mx-auto">
         <HeroSection />
         <FilterBar
+        retreats={retreats}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onSearch={onSearch}
+          onFilterByDate={onFilterByDate}
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (

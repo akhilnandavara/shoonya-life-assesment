@@ -1,0 +1,22 @@
+/* Styles for react-big-calendar toolbar */
+.rbc-toolbar {
+  font-size: 0.5rem; /* Smaller font size */
+}
+.rbc-toolbar :first-child > button {
+  display: none; /* Hide the first button */
+}
+
+.rbc-btn-group button {
+  font-size: 0.75rem; /* Smaller font size for buttons */
+  padding: 0.75rem 0.75rem; /* Smaller padding */
+}
+
+.rbc-toolbar-label {
+  font-size: 0.75rem; /* Smaller font size for toolbar label */
+}
+
+.rbc-agenda-event-cell:hover{
+  color:rgb(18, 18, 107);
+  cursor: pointer;
+  
+}

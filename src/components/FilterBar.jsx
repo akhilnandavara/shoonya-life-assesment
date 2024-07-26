@@ -1,22 +1,31 @@
 // src/components/FilterBar.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import moment from "moment";
 
-const FilterBar = ({ onFilterChange,searchInput,setSearchInput, onSearch }) => {
+const FilterBar = ({
+  retreats,
+  onFilterChange,
+  searchInput,
+  setSearchInput,
+  onSearch,
+  onFilterByDate,
+}) => {
   // Prop validation
   FilterBar.propTypes = {
+    retreats: PropTypes.array.isRequired,
     onFilterChange: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
     searchInput: PropTypes.string.isRequired,
     setSearchInput: PropTypes.func.isRequired,
-    
+    onFilterByDate: PropTypes.func.isRequired,
   };
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
-  const [startDate, setStartDate] = React.useState(new Date());
+  // const [startDate, setStartDate] = React.useState(new Date());
   const options = [
     "All",
     "relaxation",
@@ -33,7 +42,16 @@ const FilterBar = ({ onFilterChange,searchInput,setSearchInput, onSearch }) => {
     "pre-natal",
   ];
 
-  
+  const localizer = momentLocalizer(moment);
+
+  const events = retreats.map((retreat) => {
+    return {
+      title: retreat.title,
+      start: retreat.date,
+      end: retreat.date,
+      id: retreat.id,
+    };
+  });
 
   return (
     <div className="flex justify-between px-6 py-4 bg-gray-100">
@@ -50,14 +68,18 @@ const FilterBar = ({ onFilterChange,searchInput,setSearchInput, onSearch }) => {
             </span>
           </button>
           {showDatePicker && (
-            <div className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md">
-              <DatePicker
-                selected={startDate}
-                
-                onChange={(date) => setStartDate(date)}
-                inline
-              />
-            </div>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              defaultDate={new Date(1970, 0, 1)}
+              startAccessor="start"
+              endAccessor="end"
+              views={[Views.MONTH, Views.AGENDA]}
+              messages={{ agenda: "Programs" }}
+              selectable={false}
+              className="absolute top-[50%] text-xs left-[5%] translate-y-[15%] bg-white w-[300px] min-h-[300px] rounded-md"
+              onSelectEvent={(e) => onFilterByDate(e)}
+            />
           )}
         </div>
 
@@ -97,10 +119,12 @@ const FilterBar = ({ onFilterChange,searchInput,setSearchInput, onSearch }) => {
       <input
         type="text"
         value={searchInput}
-        
         placeholder="Search retreats by title"
         className="border rounded py-2 px-3"
-        onChange={(e) =>{ setSearchInput();onSearch(e.target.value)}}
+        onChange={(e) => {
+          setSearchInput();
+          onSearch(e.target.value);
+        }}
       />
     </div>
   );
