@@ -11,7 +11,7 @@ const FilterBar = ({
   searchInput,
   setSearchInput,
   onSearch,
-  onFilterByDate,
+  setFilterByDate,
 }) => {
   // Prop validation
   FilterBar.propTypes = {
@@ -20,7 +20,7 @@ const FilterBar = ({
     onSearch: PropTypes.func.isRequired,
     searchInput: PropTypes.string.isRequired,
     setSearchInput: PropTypes.func.isRequired,
-    onFilterByDate: PropTypes.func.isRequired,
+    setFilterByDate: PropTypes.func.isRequired,
   };
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
@@ -97,7 +97,7 @@ const FilterBar = ({
                 className="absolute z-[1000]  top-[50%] text-xs  translate-y-[10%] bg-white w-full h-60 sm:w-[300px] sm:min-h-[300px] rounded-md"
                 onSelectEvent={(e) => {
                   setShowDatePicker(!showDatePicker);
-                  onFilterByDate(Number(e.id));
+                  setFilterByDate(Number(e.id))
                 }}
               />
             </div>

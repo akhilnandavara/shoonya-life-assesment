@@ -14,7 +14,7 @@ function App() {
   const [filterType, setFilterType] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [filterByDateId, setFilterByDateId] = useState(0);
+  const [filterByDate, setFilterByDate] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [events, setEvents] = useState([]);
   const scrollRef = useRef(null);
@@ -30,9 +30,10 @@ function App() {
       } else if (filterType !== "All") {
         pageURL += `&filter=${filterType}`;
         baseURL += `?filter=${filterType}`;
-      } else if (filterByDateId !== 0) {
-        pageURL += `&id=${filterByDateId}`;
-        baseURL += `?id=${filterByDateId}`;
+      } else if (filterByDate !== 0) {
+        console.log("filterByDate", filterByDate);
+        pageURL += `&id=${filterByDate}`;
+        baseURL += `?id=${filterByDate}`;
       }
 
       try {
@@ -53,7 +54,7 @@ function App() {
           currentPage === 1 &&
           searchTerm === "" &&
           filterType === "All" &&
-          !filterByDateId
+          !filterByDate
         ) {
           setEvents(
             totalData.map((retreat) => {
@@ -75,10 +76,13 @@ function App() {
     };
 
     fetchData();
-    if (window.scrollY > 100) window.scrollTo({ top: 200, behavior: "smooth" });
-  }, [currentPage, searchTerm, filterType, filterByDateId]);
+    if (window.scrollY > 300) window.scrollTo({ top: 200, behavior: "smooth" });
+  }, [currentPage, searchTerm, filterType, filterByDate]);
+
+  
 
   const onPageChange = (page) => setCurrentPage(page);
+ 
 
   const onSearch = debounce((searchTerm) => {
     setCurrentPage(1);
@@ -91,11 +95,8 @@ function App() {
     setSearchInput("");
     setFilterType(type);
   };
-
-  const onFilterByDate = (id) => {
-    // console.log("id", typeof id);
-    setFilterByDateId(id);
-  };
+  
+  
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -104,12 +105,13 @@ function App() {
       <div ref={scrollRef} className="max-w-[1250px] mx-auto">
         <HeroSection />
         <FilterBar
+
           events={events}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onSearch={onSearch}
-          onFilterByDate={onFilterByDate}
+          setFilterByDate={setFilterByDate}
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (
