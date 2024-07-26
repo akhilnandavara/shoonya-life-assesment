@@ -24,16 +24,15 @@ function App() {
       let baseURL = `https://669f704cb132e2c136fdd9a0.mockapi.io/api/v1/retreats`;
       let pageURL = `${baseURL}?page=${currentPage}&limit=5`;
 
-      if (searchTerm) {
+      if (filterByDate !== 0) {
+        pageURL += `&id=${filterByDate}`;
+        baseURL += `?id=${filterByDate}`;
+      } else if (searchTerm) {
         pageURL += `&search=${searchTerm}`;
         baseURL += `?search=${searchTerm}`;
       } else if (filterType !== "All") {
         pageURL += `&filter=${filterType}`;
         baseURL += `?filter=${filterType}`;
-      } else if (filterByDate !== 0) {
-        // console.log("filterByDate", filterByDate);
-        pageURL += `&id=${filterByDate}`;
-        baseURL += `?id=${filterByDate}`;
       }
 
       try {
@@ -54,7 +53,7 @@ function App() {
           currentPage === 1 &&
           searchTerm === "" &&
           filterType === "All" &&
-          !filterByDate
+          filterByDate === 0
         ) {
           setEvents(
             totalData.map((retreat) => {
@@ -67,7 +66,7 @@ function App() {
             })
           );
         }
-        // console.log("pageData",pageData) // pageData is an array with 5 objects
+        console.log("pageData", pageData);
         setRetreats(pageData);
         setTotalPages(Math.ceil(totalData.length / 5));
       } catch (error) {
@@ -79,10 +78,7 @@ function App() {
     if (window.scrollY > 500) window.scrollTo({ top: 200, behavior: "smooth" });
   }, [currentPage, searchTerm, filterType, filterByDate]);
 
-  
-
   const onPageChange = (page) => setCurrentPage(page);
- 
 
   const onSearch = debounce((searchTerm) => {
     setCurrentPage(1);
@@ -95,8 +91,12 @@ function App() {
     setSearchInput("");
     setFilterType(type);
   };
-  
-  
+
+  const onFilterByDate = (id) => {
+    setFilterByDate(id);
+    setCurrentPage(1);
+    setSearchTerm("");  
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -105,13 +105,12 @@ function App() {
       <div ref={scrollRef} className="max-w-[1250px] mx-auto">
         <HeroSection />
         <FilterBar
-
           events={events}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onSearch={onSearch}
-          setFilterByDate={setFilterByDate}
+          onFilterByDate={onFilterByDate}
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (
