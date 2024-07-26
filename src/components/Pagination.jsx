@@ -1,4 +1,12 @@
-import React from "react";
+
+import PropTypes from 'prop-types';
+
+// props validation
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  totalPages: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+}
 
 export default function Pagination({ currentPage, totalPages, onPageChange }) {
   return (

@@ -6,6 +6,7 @@ import HeroSection from "./components/HeroSection";
 import RetreatCard from "./components/RetreatCard";
 import Pagination from "./components/Pagination";
 import debounce from "lodash.debounce";
+import Footer from "./components/Footer";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +15,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [totalPages, setTotalPages] = useState(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,10 +60,10 @@ function App() {
     };
 
     fetchData();
+    if (window.scrollY > 100) window.scrollTo({ top: 200, behavior: "smooth" });
   }, [currentPage, searchTerm, filterType]);
 
   const onPageChange = (page) => setCurrentPage(page);
-
 
   const onSearch = debounce((searchTerm) => {
     setCurrentPage(1);
@@ -74,25 +76,24 @@ function App() {
     setSearchInput("");
     setFilterType(type);
   };
-  
-  const onFilterByDate=(data)=> setRetreats(retreats.filter((retreat)=>retreat.id===data.id))
-  
+
+  const onFilterByDate = (data) =>
+    setRetreats(retreats.filter((retreat) => retreat.id === data.id));
 
   return (
     <div className="bg-gray-100 min-h-screen">
       <Header />
+
       <div className="max-w-[1250px] mx-auto">
         <HeroSection />
         <FilterBar
-       
-      
-        retreats={retreats}
+          ref={scrollRef}
+          retreats={retreats}
           onFilterChange={onFilterChange}
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           onSearch={onSearch}
           onFilterByDate={onFilterByDate}
-
         />
         {/* Cards */}
         {retreats?.length <= 0 ? (
@@ -120,6 +121,7 @@ function App() {
           onPageChange={onPageChange}
         />
       </div>
+      <Footer/>
     </div>
   );
 }

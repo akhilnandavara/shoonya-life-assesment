@@ -1,9 +1,9 @@
 // src/components/FilterBar.jsx
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
-import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css"; // calender css
+import { Calendar, momentLocalizer, Views } from "react-big-calendar"; // calender component
+import moment from "moment"; // date library
 
 const FilterBar = ({
   retreats,
@@ -25,27 +25,26 @@ const FilterBar = ({
 
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showOptions, setShowOptions] = React.useState(false);
+  const localizer = momentLocalizer(moment);
   const datePickerRef = useRef(null);
   const optionsRef = useRef(null);
 
-  // const [startDate, setStartDate] = React.useState(new Date());
   const options = [
     "All",
-    "relaxation",
-    "meditation",
-    "weekend",
-    "flexibility",
-    "yoga",
-    "workshop",
-    "fitness",
-    "camp",
-    "detox",
-    "diet",
-    "spiritual growth",
-    "pre-natal",
+    "Relaxation",
+    "Meditation",
+    "Weekend",
+    "Flexibility",
+    "Yoga",
+    "Workshop",
+    "Fitness",
+    "Camp",
+    "Detox",
+    "Diet",
+    "Spiritual growth",
+    "Pre-natal",
   ];
-
-  const localizer = momentLocalizer(moment);
+  //  events for calender
   const events = retreats.map((retreat) => {
     return {
       title: retreat.title,
@@ -76,14 +75,13 @@ const FilterBar = ({
     };
   }, [showDatePicker, showOptions]);
 
-
   return (
     <div className="flex justify-between px-6 py-4 bg-gray-100">
       <div className="flex">
         {/* Filter By Date Button */}
         <div className="relative">
           <button
-            className="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-950 hover:bg-blue-900 text-white  py-2 px-4 rounded"
             onClick={() => setShowDatePicker(!showDatePicker)}
           >
             Filter By Date
@@ -102,7 +100,7 @@ const FilterBar = ({
                 views={[Views.MONTH, Views.AGENDA]}
                 messages={{ agenda: "Programs" }}
                 selectable={false}
-                className="absolute top-[50%] text-xs left-[5%] translate-y-[15%] bg-white w-[300px] min-h-[300px] rounded-md"
+                className="absolute top-[50%] text-xs left-[5%] translate-y-[10%] bg-white w-[300px] min-h-[300px] rounded-md"
                 onSelectEvent={(e) => onFilterByDate(e)}
               />
             </div>
@@ -112,7 +110,7 @@ const FilterBar = ({
         {/* Filter By Type Button */}
         <div className="relative">
           <button
-            className="bg-blue-900 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded ml-2"
+            className="bg-blue-950 hover:bg-blue-900 text-white  py-2 px-4 rounded ml-2"
             onClick={() => setShowOptions(!showOptions)}
           >
             Filter By Type
@@ -127,7 +125,7 @@ const FilterBar = ({
           {showOptions && (
             <div
               ref={optionsRef}
-              className="absolute top-[50%] left-[5%] translate-y-[15%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md"
+              className="absolute top-[50%] left-[5%] translate-y-[5%] bg-blue-100 bg-opacity-50 w-[95%] rounded-md"
             >
               {options.map((option, i) => (
                 <div
@@ -148,8 +146,8 @@ const FilterBar = ({
       <input
         type="text"
         value={searchInput}
-        placeholder="Search retreats by title"
-        className="border rounded py-2 px-3"
+        placeholder="Search Retreats By Title"
+        className="border py-2 px-4 text-lg font-sans w-[40%] rounded-md  bg-blue-950 text-white"
         onChange={(e) => {
           setSearchInput();
           onSearch(e.target.value);

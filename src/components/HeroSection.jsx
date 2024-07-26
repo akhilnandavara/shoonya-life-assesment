@@ -6,7 +6,7 @@ const HeroSection = () => {
       <div className="  flex flex-col gap-4 bg-light_Orange p-6 rounded-md overflow-hidden ">
         <div className='h-[40%] max-h-[400px] overflow-clip  object-cover  rounded-md'>
 
-      <img src="https://yogaeastwest.com/wp-content/uploads/2017/11/slider_3.jpg" alt="Yoga"  className="" />
+      <img loading="lzay" src="https://yogaeastwest.com/wp-content/uploads/2017/11/slider_3.jpg" alt="Yoga"  className="" />
         </div>
         <div className=" text-black h-[40%] ">
           <h2 className="text-2xl mb-4">Discover Your Inner Peace</h2>

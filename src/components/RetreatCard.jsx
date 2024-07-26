@@ -1,12 +1,26 @@
 // src/components/RetreatCard.jsx
 import React from "react";
+import PropTypes from "prop-types";
 
 const RetreatCard = ({ image, title, description, date, location, price }) => {
+  //  prop validation
+  RetreatCard.propTypes = {
+    image: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+  };
+
+  // state for show more/less
   const [isExpanded, setIsExpanded] = React.useState(false);
+
   return (
     <div className=" overflow-hidden shadow-lg  rounded-md bg-light_Orange px-6 py-4 ">
       <div className=" h-[40%] w-[60%]">
         <img
+          loading="lazy"
           className=" w-full h-full object-cover rounded-xl"
           src={image}
           alt={title}
