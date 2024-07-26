@@ -5,12 +5,9 @@ const HeroSection = () => {
   const [visble, setVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setVisible(true);
     }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   return (
@@ -25,10 +22,10 @@ const HeroSection = () => {
           />
         </div>
         <div
-          className={` text-black h-[40%] translate-y-[100px] opacity-0  ${
+          className={` text-black h-[40%] translate-y-[50px] opacity-0  ${
             visble
-              ? "transition-all translate-y-0 duration-500 ease-in-out opacity-100"
-              : ""
+              ? "transition-all translate-y-0 duration-500 ease-in-out !opacity-100"
+              : "opacity-0"
           }`}
         >
           <h2 className="text-2xl mb-4">Discover Your Inner Peace</h2>

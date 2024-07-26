@@ -66,7 +66,7 @@ function App() {
             })
           );
         }
-        console.log("pageData", pageData);
+        // console.log("pageData", pageData);
         setRetreats(pageData);
         setTotalPages(Math.ceil(totalData.length / 5));
       } catch (error) {
