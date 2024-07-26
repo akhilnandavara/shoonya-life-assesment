@@ -22,9 +22,9 @@ const HeroSection = () => {
           />
         </div>
         <div
-          className={` text-black h-[40%] translate-y-[50px] opacity-0  ${
+          className={` text-black h-[40%] translate-y-[100px] opacity-0  ${
             visble
-              ? "transition-all translate-y-0 duration-500 ease-in-out !opacity-100"
+              ? "!ransition-all !translate-y-0 !duration-500 !ease-in-out !opacity-100"
               : "opacity-0"
           }`}
         >
